@@ -1,0 +1,5 @@
+com\expiryalert\controller\ItemController.class
+com\expiryalert\model\Item.class
+com\expiryalert\service\ItemService.class
+com\expiryalert\repository\ItemRepository.class
+com\expiryalert\ExpiryAlertApplication.class
