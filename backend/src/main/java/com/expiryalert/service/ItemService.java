@@ -13,12 +13,37 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+    public List<Item> findItemsExpiringBefore(LocalDate date) {
+        return itemRepository.findByExpiryBeforeAndWastedFalse(date);
+    }
+
     public List<Item> getAllItems() {
-        return itemRepository.findByWastedFalseOrderByExpiryAsc();
+        return itemRepository.findAll();
+    }
+
+    public Item saveItem(Item item) {
+        return itemRepository.save(item);
+    }
+
+    public void deleteItem(Long id) {
+        itemRepository.deleteById(id);
+    }
+
+    public Item markAsWasted(Long id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+        
+        item.setWasted(true);
+        item.setWastedDate(LocalDate.now());
+        return itemRepository.save(item);
     }
 
     public List<Item> getWastedItems() {
-        return itemRepository.findByWastedOrderByExpiryAsc(true);
+        return itemRepository.findByWastedTrue();
+    }
+
+    public List<Item> getItemsByLocation(Long locationId) {
+        return itemRepository.findByLocationId(locationId);
     }
 
     public Item createItem(Item item) {
@@ -32,18 +57,6 @@ public class ItemService {
         item.setName(itemDetails.getName());
         item.setExpiry(itemDetails.getExpiry());
         
-        return itemRepository.save(item);
-    }
-
-    public void deleteItem(Long id) {
-        itemRepository.deleteById(id);
-    }
-
-    public Item markAsWasted(Long id) {
-        Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Item not found"));
-        
-        item.setWasted(true);
         return itemRepository.save(item);
     }
 

@@ -1,5 +1,11 @@
-com\expiryalert\controller\ItemController.class
+com\expiryalert\controller\TestController.class
+com\expiryalert\config\OpenApiConfig.class
+com\expiryalert\controller\StorageLocationController.class
+com\expiryalert\repository\StorageLocationRepository.class
+com\expiryalert\model\StorageLocation.class
+com\expiryalert\service\NotificationService.class
+com\expiryalert\ExpiryAlertApplication.class
 com\expiryalert\model\Item.class
 com\expiryalert\service\ItemService.class
 com\expiryalert\repository\ItemRepository.class
-com\expiryalert\ExpiryAlertApplication.class
+com\expiryalert\controller\ItemController.class

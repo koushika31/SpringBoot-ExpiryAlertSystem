@@ -1,188 +1,124 @@
 import React, { useState, useEffect } from 'react';
-import shelfLife from './shelfLife';
 import './styles.css';
 
-const API_BASE_URL = 'http://localhost:8080/api/items';
-
-const getStatus = (expiry) => {
-  const today = new Date();
-  const diff = (new Date(expiry) - today) / (1000 * 60 * 60 * 24);
-  if (diff < 0) return 'expired';
-  if (diff <= 3) return 'near';
-  return 'safe';
-};
-
-const App = () => {
+function App() {
   const [items, setItems] = useState([]);
-  const [name, setName] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [editingId, setEditingId] = useState(null);
-  const [filter, setFilter] = useState('all');
-  const [wasted, setWasted] = useState([]);
-  const [darkMode, setDarkMode] = useState(false);
+  const [newItem, setNewItem] = useState({ name: '', expiry: '' });
+  const [message, setMessage] = useState('');
 
-  // Fetch items and wasted items on component mount
   useEffect(() => {
     fetchItems();
-    fetchWastedItems();
   }, []);
 
   const fetchItems = async () => {
     try {
-      const response = await fetch(API_BASE_URL);
+      const response = await fetch('http://localhost:8080/api/items');
       const data = await response.json();
       setItems(data);
     } catch (error) {
-      console.error('Error fetching items:', error);
+      setMessage('Error fetching items: ' + error.message);
     }
   };
 
-  const fetchWastedItems = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE_URL}/wasted`);
-      const data = await response.json();
-      setWasted(data);
-    } catch (error) {
-      console.error('Error fetching wasted items:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (name.toLowerCase() in shelfLife && !expiry) {
-      const days = shelfLife[name.toLowerCase()];
-      const suggestDate = new Date();
-      suggestDate.setDate(suggestDate.getDate() + days);
-      setExpiry(suggestDate.toISOString().split('T')[0]);
-    }
-  }, [name]);
-
-  const handleSubmit = async () => {
-    if (!name || !expiry) return;
-    const itemData = { name, expiry };
-    
-    try {
-      if (editingId !== null) {
-        // Update existing item
-        const response = await fetch(`${API_BASE_URL}/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(itemData)
-        });
-        if (response.ok) {
-          fetchItems();
-          setEditingId(null);
-        }
+      const response = await fetch('http://localhost:8080/api/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newItem),
+      });
+      
+      if (response.ok) {
+        setMessage('Item added successfully!');
+        setNewItem({ name: '', expiry: '' });
+        fetchItems();
       } else {
-        // Create new item
-        const response = await fetch(API_BASE_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(itemData)
-        });
-        if (response.ok) {
-          fetchItems();
-        }
+        setMessage('Error adding item');
       }
-      setName('');
-      setExpiry('');
     } catch (error) {
-      console.error('Error saving item:', error);
+      setMessage('Error: ' + error.message);
     }
   };
 
-  const deleteItem = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.ok) {
-        fetchItems();
-      }
-    } catch (error) {
-      console.error('Error deleting item:', error);
+  const getExpiryStatus = (expiryDate) => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const diffTime = expiry - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return 'expired';
+    if (diffDays <= 3) return 'warning';
+    if (diffDays <= 7) return 'soon';
+    return 'ok';
+  };
+
+  const getExpiryClass = (status) => {
+    switch (status) {
+      case 'expired': return 'expiry-warning';
+      case 'warning': return 'expiry-warning';
+      case 'soon': return 'expiry-soon';
+      default: return 'expiry-ok';
     }
   };
-
-  const editItem = (item) => {
-    setName(item.name);
-    setExpiry(item.expiry);
-    setEditingId(item.id);
-  };
-
-  const markWasted = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/${id}/waste`, {
-        method: 'POST'
-      });
-      if (response.ok) {
-        fetchItems();
-        fetchWastedItems();
-      }
-    } catch (error) {
-      console.error('Error marking item as wasted:', error);
-    }
-  };
-
-  const filteredItems = items
-    .filter(item => {
-      const status = getStatus(item.expiry);
-      return filter === 'all' || status === filter;
-    })
-    .sort((a, b) => new Date(a.expiry) - new Date(b.expiry));
 
   return (
-    <div className={`container ${darkMode ? 'dark' : ''}`}>
-      <div className="header">
-        <h1>ExpiryAlert</h1>
-        <button className="dark-toggle" onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
-        </button>
-      </div>
+    <div className="container">
+      <h1>Expiry Alert System</h1>
 
-      <div className="input-group">
-        <input placeholder="Item name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="date" value={expiry} onChange={(e) => setExpiry(e.target.value)} />
-        <button onClick={handleSubmit}>{editingId !== null ? 'Update' : 'Add'}</button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="name">Item Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={newItem.name}
+            onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+            placeholder="Enter item name"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="expiry">Expiry Date:</label>
+          <input
+            type="date"
+            id="expiry"
+            value={newItem.expiry}
+            onChange={(e) => setNewItem({ ...newItem, expiry: e.target.value })}
+            required
+          />
+        </div>
+        <button type="submit">Add Item</button>
+      </form>
 
-      <div className="filters">
-        {['all', 'safe', 'near', 'expired'].map(type => (
-          <button
-            key={type}
-            onClick={() => setFilter(type)}
-            className={filter === type ? 'active-filter' : ''}
-          >
-            {type.toUpperCase()}
-          </button>
-        ))}
-      </div>
+      {message && (
+        <div className={`alert ${message.includes('Error') ? 'alert-error' : 'alert-success'}`}>
+          {message}
+        </div>
+      )}
 
-      <ul className="item-list">
-        {filteredItems.map((item) => {
-          const status = getStatus(item.expiry);
+      <div className="item-list">
+        <h2>Your Items</h2>
+        {items.map((item) => {
+          const status = getExpiryStatus(item.expiry);
+          const statusClass = getExpiryClass(status);
           return (
-            <li key={item.id} className={`item ${status}`}>
-              <div className="item-info">
-                <strong>{item.name}</strong> – {item.expiry}
+            <div key={item.id} className="item-card">
+              <div className="item-name">{item.name}</div>
+              <div className={`item-expiry ${statusClass}`}>
+                Expires: {new Date(item.expiry).toLocaleDateString()}
+                {status === 'expired' && ' (Expired)'}
+                {status === 'warning' && ' (Expiring soon!)'}
+                {status === 'soon' && ' (Expiring in a week)'}
               </div>
-              <div className="item-actions">
-                <button onClick={() => editItem(item)}>✏️</button>
-                <button onClick={() => deleteItem(item.id)}>❌</button>
-                <button onClick={() => markWasted(item.id)}>🗑️</button>
-              </div>
-            </li>
+            </div>
           );
         })}
-      </ul>
-
-      <h3>Wasted Items: {wasted.length}</h3>
-      <ul className="wasted-list">
-        {wasted.map((item) => (
-          <li key={item.id}>{item.name} – {item.expiry}</li>
-        ))}
-      </ul>
+      </div>
     </div>
   );
-};
+}
 
 export default App;
