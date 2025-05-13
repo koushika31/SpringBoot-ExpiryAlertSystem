@@ -1,73 +1,133 @@
-<h1 align="center">🕒 Spring Boot Expiry Alert System</h1>
-<p align="center"><em>A web-based system to track, update, and manage item expiry data efficiently.</em></p>
+# 🛎️ Expiry Alert System
+
+> A web-based application to **track and manage expiry dates** using **Spring Boot** (Backend) and a responsive **Frontend**.
 
 ---
 
-## 🔧 Features
+## 🎥 Live Demo
 
-- ✅ Add, update, and delete items with expiry dates  
-- ❌ Mark expired or wasted items  
-- 📋 View all active and wasted items  
-- 💾 MySQL database integration  
-- 🔗 RESTful API endpoints  
-- 🌐 CORS enabled for frontend access  
-- ⚠️ Error handling and input validation  
+https://github.com/yourusername/ExpiryAlertProject/assets/yourgithubid/expiryalertsystem.mp4  
+<!-- Alternatively, if video is in repo: -->
+
+<video width="100%" controls autoplay muted loop>
+  <source src="expiryalertsystem.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ---
 
-## 📁 Project Structure
+## ✨ Features
+
+- ➕ Add / 📝 Edit / ❌ Delete items with expiry dates  
+- 🗑️ Mark items as wasted  
+- 📄 View active and wasted items  
+- 💾 MySQL Database Integration  
+- 🔗 RESTful API Endpoints  
+- 🔓 CORS Support  
+- 🛡️ Input Validation & Error Handling  
+
+---
+
+## 🗂️ Project Structure
+
 
 ExpiryAlertProject/
-├── backend/ # Spring Boot backend
-│ ├── src/
-│ ├── pom.xml
-│ └── application.properties
-├── frontend/ # Frontend app (HTML/CSS/JS or React/Vue)
-│ ├── index.html
-│ └── screenshot.png # Working UI screenshot
+├── backend/                   # Spring Boot App
+│   ├── src/
+│   ├── pom.xml
+│   └── application.properties
+├── frontend/                  # HTML/CSS/JS or React/Vue
+├── expiryalertsystem.mp4      # Demo Video
+└── screenshots/               # Project Screenshots
+🛠️ Tech Stack
+
+project:
+  name: Expiry Alert System
+  description: A web-based system to track and manage item expiry dates using Spring Boot and a frontend (HTML/CSS/JS or React).
+  version: 1.0.0
+
+features:
+  - Add, update, delete items with expiry dates
+  - Mark items as wasted
+  - View all active and wasted items
+  - MySQL database integration
+  - RESTful API endpoints
+  - CORS enabled for frontend access
+  - Error handling and input validation
+
+structure:
+  backend:
+    type: spring-boot
+    files:
+      - src/
+      - pom.xml
+      - application.properties
+  frontend:
+    type: html-css-js or react
+    files:
+      - index.html
+      - style.css
+      - app.js
+  assets:
+    - expiryalertsystem.mp4
+    - screenshots/
+
+tech_stack:
+  backend:
+    - Java
+    - Spring Boot
+    - Spring Data JPA
+  database:
+    - MySQL
+  frontend:
+    - HTML
+    - CSS
+    - JavaScript
+  tools:
+    - Maven
+    - Lombok
+    - Validation API
+    - Git
+    - GitHub
+
+api_endpoints:
+  - method: GET
+    path: /api/items
+    description: Get all active items
+  - method: GET
+    path: /api/items/wasted
+    description: Get all wasted items
+  - method: POST
+    path: /api/items
+    description: Add new item
+  - method: PUT
+    path: /api/items/{id}
+    description: Update item
+  - method: DELETE
+    path: /api/items/{id}
+    description: Delete item
+  - method: POST
+    path: /api/items/{id}/waste
+    description: Mark item as wasted
+
+run_instructions:
+  backend:
+    steps:
+      - cd backend
+      - mvn spring-boot:run
+
+developer:
+  name: Koushika R.M.
+  role: B.Tech IT Student
+  email: rmkoushika3115@gmail.com
+  linkedin: https://www.linkedin.com/in/koushika-r-m-68667725a
+  strengths:
+    - Ambitious
+    - Responsible
+  goals: Aspiring Software Engineer
+
+media:
+  demo_video: expiryalertsystem.mp4
+  
 
 
----
-
-## 🔌 API Endpoints
-
-| Method | Endpoint                | Description              |
-|--------|-------------------------|--------------------------|
-| GET    | `/api/items`            | Get all active items     |
-| GET    | `/api/items/wasted`     | Get all wasted items     |
-| POST   | `/api/items`            | Add a new item           |
-| PUT    | `/api/items/{id}`       | Update item              |
-| DELETE | `/api/items/{id}`       | Delete item              |
-| POST   | `/api/items/{id}/waste` | Mark item as wasted      |
-
----
-
-## ⚙️ Technologies Used
-
-<div align="center">
-
-<img src="https://img.shields.io/badge/Java-%23ED8B00?style=for-the-badge&logo=java&logoColor=white" />
-<img src="https://img.shields.io/badge/Spring_Boot-%236DB33F?style=for-the-badge&logo=spring-boot&logoColor=white" />
-<img src="https://img.shields.io/badge/MySQL-%2300f?style=for-the-badge&logo=mysql&logoColor=white" />
-<img src="https://img.shields.io/badge/Maven-%23C71A36?style=for-the-badge&logo=apache-maven&logoColor=white" />
-<img src="https://img.shields.io/badge/Lombok-%23FF8000?style=for-the-badge&logoColor=white" />
-<img src="https://img.shields.io/badge/HTML5-%23E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-<img src="https://img.shields.io/badge/CSS3-%231572B6?style=for-the-badge&logo=css3&logoColor=white" />
-<img src="https://img.shields.io/badge/JavaScript-%23F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-
-</div>
-
----
-
-## 🚀 How to Run the Project
-
-```bash
-# Step 1: Navigate to the backend folder
-cd backend
-
-# Step 2: Run the Spring Boot application
-mvn spring-boot:run
-
-# Step 3: Open the frontend folder in your browser
-# Example:
-open ../frontend/index.html
