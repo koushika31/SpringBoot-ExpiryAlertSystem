@@ -57,12 +57,4 @@ mvn spring-boot:run
 open ../frontend/index.html
 
 
----
 
-### ✅ Final Notes:
-
-- Replace `"rmkoushika3115@gmail.com"` with your real email.
-- Make sure the screenshot file is saved at `frontend/screenshot.png`.
-- Commit this file as `README.md` in your root project folder.
-
-Would you like me to help generate a **sample screenshot/mock UI image** for you as well?
