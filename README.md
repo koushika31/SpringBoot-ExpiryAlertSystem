@@ -1,45 +1,64 @@
-# 🛎️ Expiry Alert System
+# Expiry Alert System
 
-> A web-based application to **track and manage expiry dates** using **Spring Boot** (Backend) and a responsive **Frontend**.
+A dynamic web application that helps track and manage item expiry dates using **Spring Boot** for backend and **HTML/CSS/JS** (or **React**) for the frontend.
 
----
+## 🔧 Features
+- Add, update, and delete items with expiry dates.
+- Mark items as wasted.
+- View all active and wasted items.
+- MySQL database integration.
+- RESTful API endpoints.
+- CORS enabled for frontend access.
+- Error handling and input validation.
 
-## 🎥 Live Demo
-
-https://github.com/yourusername/ExpiryAlertProject/assets/yourgithubid/expiryalertsystem.mp4  
-<!-- Alternatively, if video is in repo: -->
-
-<video width="100%" controls autoplay muted loop>
-  <source src="expiryalertsystem.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
----
-
-## ✨ Features
-
-- ➕ Add / 📝 Edit / ❌ Delete items with expiry dates  
-- 🗑️ Mark items as wasted  
-- 📄 View active and wasted items  
-- 💾 MySQL Database Integration  
-- 🔗 RESTful API Endpoints  
-- 🔓 CORS Support  
-- 🛡️ Input Validation & Error Handling  
-
----
-
-## 🗂️ Project Structure
-
-
+## 📁 Project Structure
 ExpiryAlertProject/
-├── backend/                   # Spring Boot App
-│   ├── src/
-│   ├── pom.xml
-│   └── application.properties
-├── frontend/                  # HTML/CSS/JS or React/Vue
-├── expiryalertsystem.mp4      # Demo Video
-└── screenshots/               # Project Screenshots
-🛠️ Tech Stack
+├── backend/ # Spring Boot backend
+│ ├── src/
+│ ├── pom.xml
+│ └── application.properties
+├── frontend/ # Frontend app (HTML/CSS/JS or React)
+│ ├── index.html
+│ ├── style.css
+│ └── app.js
+└── assets/
+├── expiryalertsystem.mp4
+└── screenshots/
+
+
+## 🔌 API Endpoints
+- `GET /api/items` — Get all active items
+- `GET /api/items/wasted` — Get all wasted items
+- `POST /api/items` — Add a new item
+- `PUT /api/items/{id}` — Update item
+- `DELETE /api/items/{id}` — Delete item
+- `POST /api/items/{id}/waste` — Mark item as wasted
+
+## ⚙️ Technologies Used
+- Java Spring Boot
+- Spring Data JPA
+- MySQL
+- Lombok
+- Validation API
+- Maven
+- Git & GitHub
+
+## 🚀 How to Run
+
+# In backend folder
+mvn spring-boot:run
+📞 Contact
+Name: Koushika R.M.
+
+Role: Full Stack Developer
+
+Email: rmkoushika3115@gmail.com
+
+LinkedIn: Koushika R.M
+
+---
+
+### **2. `expiry-alert-system.yml`**
 
 project:
   name: Expiry Alert System
@@ -118,7 +137,7 @@ run_instructions:
 
 developer:
   name: Koushika R.M.
-  role: B.Tech IT Student
+  role: Full Stack Developer
   email: rmkoushika3115@gmail.com
   linkedin: https://www.linkedin.com/in/koushika-r-m-68667725a
   strengths:
@@ -128,6 +147,7 @@ developer:
 
 media:
   demo_video: expiryalertsystem.mp4
-  
-
-
+  screenshots:
+    - screenshots/home.png
+    - screenshots/add-item.png
+    - screenshots/wasted-items.png
